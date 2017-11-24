@@ -54,9 +54,12 @@ public class AppConfiguration {
 	public static String getTestUserPass() {
 		return config().getProperty("appUserPass");
 	}
+	
+	public static String getChromedriverUrl() {
+		return config().getProperty("chromedriverUrl");
+	}
 
 	public static String getProperty(final String propertyName) {
 		return config().getProperty(propertyName);
 	}
-
 }

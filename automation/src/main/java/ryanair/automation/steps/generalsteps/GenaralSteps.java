@@ -8,6 +8,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import ryanair.automation.pageobjects.HomePage;
+import ryanair.automation.pageobjects.LoginPage;
 import ryanair.automation.utils.AppConfiguration;
 
 public class GenaralSteps {
@@ -16,16 +18,25 @@ public class GenaralSteps {
 	private WebDriver driver;
 	private WebDriverWait wait;
 	
+	private HomePage homePage;
+	private LoginPage loginPage;
+	
 	@Given("LCJ test given")
 	public void sendIplStubMockRequests() throws InterruptedException {
-		System.out.println("GIVEN step"+ System.getProperty("current.date"));
 		APP.info("GIVEN");
 		System.out.println("GIVEN step");
-		System.setProperty("webdriver.chrome.driver", "C:\\Users\\pulawskw\\Desktop\\RyanairProject\\chromedriver.exe");
+		
+		System.setProperty("webdriver.chrome.driver", AppConfiguration.getChromedriverUrl());
+		
 		driver = new ChromeDriver();
-		wait = new WebDriverWait(driver, 10);
-		System.out.println("URL: "+ AppConfiguration.getTestedAppUrl());
+
 		driver.get(AppConfiguration.getTestedAppUrl());
+		driver.manage().window().maximize();
+		
+		homePage = new HomePage(driver);
+		loginPage = homePage.chooseLoginMode();
+		loginPage.loginUser(AppConfiguration.getTestUserLogin(), AppConfiguration.getTestUserPass());
+
 		Thread.sleep(5000);
 	}
 

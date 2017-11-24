@@ -59,6 +59,8 @@ public abstract class AbstractStories extends JUnitStories {
     		seleniumContext,
             crossReference.getStepMonitor()
     	);
+    
+
     private Format[] formats = new Format[] { 
     		new SeleniumContextOutput(seleniumContext), 
     		CONSOLE, 
