@@ -101,11 +101,11 @@ public class HomePage {
 		return this;
 	}
 	
-	public HomePage clickLetsGoButton(){
+	public PricePage clickLetsGoButton(){
 		letsGoButton = driver.findElement(letsGoButtonLocator);
 		letsGoButton.click();
 		
-		return this;
+		return new PricePage(driver);
 	}
 	
 	//TODO Add possibility to add other groups than Adults

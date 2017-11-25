@@ -9,6 +9,8 @@ import org.jbehave.core.model.ExamplesTable;
 
 import ryanair.automation.pageobjects.HomePage;
 import ryanair.automation.pageobjects.LoginPage;
+import ryanair.automation.pageobjects.PricePage;
+import ryanair.automation.pageobjects.RecommendationsPage;
 import ryanair.automation.utils.AppConfiguration;
 import ryanair.automation.utils.SetupWebDriver;
 import ryanair.automation.utils.Sleep;
@@ -21,6 +23,8 @@ public class GenaralSteps {
 	
 	private HomePage homePage;
 	private LoginPage loginPage;
+	private PricePage pricePage;
+	private RecommendationsPage recommendationsPage;
 	
 	private SetupWebDriver setupWebDriver = new SetupWebDriver();
 
@@ -72,20 +76,37 @@ public class GenaralSteps {
 			Preconditions.checkNotNull(adults, "adults can't be null");
 			Preconditions.checkNotNull(adultsNumber, "adultsNumber can't be null");
 			
+			//Fill in flight details form
 			homePage.setOneWayRadioButton();
 			homePage.chooseDepartureAirport(departureAirport);
 			homePage.chooseDestinationAirport(destinationAirport);
 			homePage.setDepartureDate(departureDate);
 			homePage.selectPassengersDropdown(adults, Integer.parseInt(adultsNumber));
-			homePage.clickLetsGoButton();
-			
+
+			//Check if flight details form was filled in correctly
 			assertThat(homePage.getDepartureAirportText()).isEqualTo(departureAirport);
 			assertThat(homePage.getDestinationAirportText()).isEqualTo(destinationAirport);
 			assertThat(homePage.getDepartureDateText()).isEqualTo(departureDate);
-			
 //			System.out.println("DepartureAirport: " + homePage.getDepartureAirportText());
 //			System.out.println("DestinationAirport: " + homePage.getDestinationAirportText());
 //			System.out.println("Dep date: " + homePage.getDepartureDateText());
+			
+			
+			//Got to PricePage
+			pricePage = homePage.clickLetsGoButton();
+			
+			//Sleep.seconds(10);
+			//Confirm Price
+			pricePage.confirmSelectedPrice();
+			pricePage.selectStandardFare();//It may be parametrized
+			
+			//Go to RecomendationsPage
+			recommendationsPage = pricePage.clickContinueButton();
+
+			//
+			recommendationsPage.checkoutBooking();
+			recommendationsPage.declineSeatReservation();
+			
 			Sleep.seconds(5);
 		}
 	}
