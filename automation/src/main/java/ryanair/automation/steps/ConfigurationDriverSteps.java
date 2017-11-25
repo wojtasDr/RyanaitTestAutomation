@@ -14,7 +14,7 @@ import org.jbehave.web.selenium.WebDriverProvider;
 
 public class ConfigurationDriverSteps {
 	private static Logger APP = Logger.getLogger("APP");
-
+	
 	public ConfigurationDriverSteps(WebDriverProvider driverProvider) {
 	}
 
@@ -24,7 +24,7 @@ public class ConfigurationDriverSteps {
 	}
 
 	@BeforeStory
-	public void startSimulator() throws IOException, InterruptedException {
+	public void beforeStory() throws IOException, InterruptedException {
 		APP.info("");
 		APP.info("***-----------***");
 		APP.info("STORY WAS STARTED");
@@ -61,7 +61,7 @@ public class ConfigurationDriverSteps {
 	}
 
 	@AfterStory
-	public void stopSimulator() throws IOException, InterruptedException {
+	public void afterStory() throws IOException, InterruptedException {
 		APP.info("");
 		APP.info("***------------***");
 		APP.info("STORY WAS FINISHED");
