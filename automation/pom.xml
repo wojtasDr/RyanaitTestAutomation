@@ -20,6 +20,8 @@
 		<selenium.version>3.7.1</selenium.version>
 		<log4j.version>1.2.17</log4j.version>
 		<commons.logging.version>1.1.3</commons.logging.version>
+		<commons.lang3.version>3.0</commons.lang3.version>
+		<guava.version>21.0</guava.version>
 		<jdk.version>1.8</jdk.version>
 		<stories>**/${STORY_NAME}.java</stories>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -125,12 +127,17 @@
 			</exclusions>
 		</dependency>
 		<dependency>
-    <groupId>org.apache.commons</groupId>
-    <artifactId>commons-lang3</artifactId>
-    <version>3.0</version>
-</dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>${commons.lang3.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>${guava.version}</version>
+		</dependency>
 	</dependencies>
-	
+
 	<!-- MAVEN PROFILES -->
 	<profiles>
 		<profile>
@@ -142,7 +149,7 @@
 				<app.url>https://www.ryanair.com/gb/en/</app.url>
 				<app.user.name>ryanairautomationwp@mailinator.com</app.user.name>
 				<app.user.pass>R1234567a</app.user.pass>
-				<chromedrive.url>C:/Users/pulawskw/Desktop/RyanairProject/chromedriver.exe</chromedrive.url>
+				<chromedrive.url>C:/Users/wojtas_dr/Desktop/Projects/RyanaitTestAutomation/chromedriver.exe</chromedrive.url>
 			</properties>
 		</profile>
 		<profile>
@@ -154,13 +161,13 @@
 				<app.url>https://www.ryanair.com/pl/pl/</app.url>
 				<app.user.name>ryanairautomationwp@mailinator.com</app.user.name>
 				<app.user.pass>R1234567a</app.user.pass>
-				<chromedrive.url>C:/Users/pulawskw/Desktop/RyanairProject/chromedriver.exe</chromedrive.url>
+				<chromedrive.url>C:/Users/wojtas_dr/Desktop/Projects/RyanaitTestAutomation/chromedriver.exe</chromedrive.url>
 			</properties>
 		</profile>
 	</profiles>
 
 	<build>
-	<testSourceDirectory>src/test/java</testSourceDirectory>
+		<testSourceDirectory>src/test/java</testSourceDirectory>
 		<testResources>
 			<testResource>
 				<directory>src/test/resources</directory>
@@ -189,7 +196,7 @@
 				<filtering>false</filtering>
 			</resource>
 		</resources>
-		
+
 		<!-- MAVEN PLUGINS -->
 		<pluginManagement>
 			<plugins>

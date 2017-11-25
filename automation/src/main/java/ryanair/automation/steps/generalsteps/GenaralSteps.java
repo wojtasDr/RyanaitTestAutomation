@@ -1,5 +1,7 @@
 package ryanair.automation.steps.generalsteps;
 
+import java.util.concurrent.TimeUnit;
+
 import org.apache.log4j.Logger;
 import org.jbehave.core.annotations.Given;
 import org.jbehave.core.annotations.Then;
@@ -29,9 +31,9 @@ public class GenaralSteps {
 		System.setProperty("webdriver.chrome.driver", AppConfiguration.getChromedriverUrl());
 		
 		driver = new ChromeDriver();
-
-		driver.get(AppConfiguration.getTestedAppUrl());
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 		driver.manage().window().maximize();
+		driver.get(AppConfiguration.getTestedAppUrl());
 		
 		homePage = new HomePage(driver);
 		loginPage = homePage.chooseLoginMode();

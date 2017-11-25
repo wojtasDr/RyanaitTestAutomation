@@ -9,10 +9,6 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 public class HomePage {
 
 	private WebDriver driver;
-	private WebDriverWait wait;
-
-	// driver = new ChromeDriver();
-	// wait = new WebDriverWait(driver, 10);
 
 	// --------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	// ---WEB ELEMENTS---
@@ -26,7 +22,6 @@ public class HomePage {
 
 	public HomePage(WebDriver driver) {
 		this.driver = driver;
-		wait = new WebDriverWait(driver, 10);
 
 		// // Check that we're on the right page.
 		// if (!driver.getCurrentUrl().trim().endsWith("/tumorboard/#/login")) {
@@ -39,7 +34,10 @@ public class HomePage {
 	// --------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 	public LoginPage chooseLoginMode() {
-		loginViewButton = wait.until(ExpectedConditions.presenceOfElementLocated((loginViewButtonLocator)));
+		loginViewButton = (new WebDriverWait(driver, 10))
+				  .until(ExpectedConditions.presenceOfElementLocated(loginViewButtonLocator));
+		
+		//loginViewButton = driver.findElement(loginViewButtonLocator);
 		loginViewButton.click();
 
 		return new LoginPage(driver);
