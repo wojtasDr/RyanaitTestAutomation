@@ -141,12 +141,24 @@ public class HomePage {
 
 		return this;
 	}
+	
+	public void fillInFlightDetailsForm(String departureAirport, String destinationAirport, String departureDate,
+			String adults, String adultsNumber) {
+		this.setOneWayRadioButton();
+		this.chooseDepartureAirport(departureAirport);
+		this.chooseDestinationAirport(destinationAirport);
+		this.setDepartureDate(departureDate);
+		this.selectPassengersDropdown(adults, Integer.parseInt(adultsNumber));
+	}
 
 	// --------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	// ---GETTER METHODS---
 	// --------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-	public String getUserNameText() {
+	public String getUserNameText(String text) {
+		(new WebDriverWait(driver, 10))
+				.until(ExpectedConditions.textToBePresentInElementLocated(userNameTextLocator, text));
+		
 		return driver.findElement(userNameTextLocator).getText();
 	}
 

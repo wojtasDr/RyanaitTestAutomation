@@ -22,10 +22,19 @@ public class PaymentPage {
 	private WebElement cardExpiryYearInput;
 	private WebElement cardSecurityCodeInput;
 	private WebElement cardHolderNameInput;
+	private WebElement billingAddressL1;
+	private WebElement billingAddressL2;
+	private WebElement billingAddressCity;
+	private WebElement billingAddressPostalCode;
+	private WebElement billingAddressCountry;
+	private WebElement policyInput;
+	private WebElement policyCheckBox;// TODO build it basing on policyInput
+	private WebElement payNowButton;
 	private List<WebElement> firstNameInputs;
 	private List<WebElement> lastNameInputs;
 	private List<WebElement> passengerTitleSelects;
 	private List<WebElement> passangerTitleOptions;
+
 	// --------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	// ---LOCATORS---
 	// --------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -40,6 +49,15 @@ public class PaymentPage {
 	By cardExpiryYearInputLocator = By.name("expiryYear");
 	By cardSecurityCodeInputLocator = By.name("securityCode");
 	By cardHolderNameInputLocator = By.name("cardHolderName");
+	By billingAddressL1Locator = By.id("billingAddressAddressLine1");
+	By billingAddressL2Locator = By.id("billingAddressAddressLine2");
+	By billingAddressCityLocator = By.id("billingAddressCity");
+	By billingAddressPostCodeLocator = By.id("billingAddressPostcode");
+	By billingAddressCountryLocator = By.id("billingAddressCountry");
+	By payNowButtonLocator = By.cssSelector("button[translate$='pay_now']");
+	By policyInputLocator = By.name("acceptPolicy");
+	By policyCheckBoxLocator = By.xpath("//input[@name='acceptPolicy']/..//core-icon");
+	By fillInFormErrorsLocator = By.cssSelector("li>span[translate*='card_number']");
 
 	public PaymentPage(WebDriver driver) {
 		this.driver = driver;
@@ -97,6 +115,14 @@ public class PaymentPage {
 			select.selectByIndex(i % (passangerTitleOptions.size() / passengerTitleSelects.size()));
 			i++;
 		}
+
+		return this;
+	}
+
+	public PaymentPage fillInBPassengersDataForm() {
+		this.typePassangersTitle();
+		this.typePassangersFirstName();
+		this.typePassangersLastName();
 
 		return this;
 	}
@@ -159,5 +185,94 @@ public class PaymentPage {
 		this.setCardHolderName(cardHolderName);
 
 		return this;
+	}
+
+	public PaymentPage typeBillingAddressL1(String addressLine1) {
+		billingAddressL1 = driver.findElement(billingAddressL1Locator);
+		billingAddressL1.sendKeys(addressLine1);
+
+		return this;
+	}
+
+	public PaymentPage typeBillingAddressL2(String addressLine2) {
+		billingAddressL2 = driver.findElement(billingAddressL2Locator);
+		billingAddressL2.sendKeys(addressLine2);
+
+		return this;
+	}
+
+	public PaymentPage typeBillingAddressCity(String addressCity) {
+		billingAddressCity = driver.findElement(billingAddressCityLocator);
+		billingAddressCity.sendKeys(addressCity);
+
+		return this;
+	}
+
+	public PaymentPage typeBillingAddressPostalCode(String addressPostalCode) {
+		billingAddressPostalCode = driver.findElement(billingAddressPostCodeLocator);
+		billingAddressPostalCode.sendKeys(addressPostalCode);
+
+		return this;
+	}
+
+	public PaymentPage selectCountry(String addressCountry) {
+		billingAddressCountry = driver.findElement(billingAddressCountryLocator);
+		billingAddressCountry.click();
+
+		select = new Select(billingAddressCountry);
+		select.selectByVisibleText(addressCountry);
+		return this;
+	}
+
+	public PaymentPage fillInBillingAddressForm(String addressLine1, String addressLine2, String addressCity,
+			String addressPostalCode, String addressCountry) {
+		this.typeBillingAddressL1(addressLine1);
+		this.typeBillingAddressL2(addressLine2);
+		this.typeBillingAddressCity(addressCity);
+		this.typeBillingAddressPostalCode(addressPostalCode);
+		this.selectCountry(addressCountry);
+
+		return this;
+	}
+
+	public PaymentPage acceptPolicy() {
+		policyInput = driver.findElement(policyInputLocator);
+
+		if (policyInput.getAttribute("class").contains("ng-empty")) {
+			policyCheckBox = driver.findElement(policyCheckBoxLocator);
+			policyCheckBox.click();
+		}
+
+		return this;
+	}
+
+	public PaymentPage payNowDeclined() {
+		payNowButton = driver.findElement(payNowButtonLocator);
+		payNowButton.click();
+
+		return this;
+	}
+
+	// --------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	// ---GETTER METHODS---
+	// --------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+	public List<WebElement> getFillInFormErrors() {
+		return driver.findElements(fillInFormErrorsLocator);
+	}
+
+	public boolean isErrorVisibe(String errorText) {
+		boolean isErrorFound = false;
+
+		List<WebElement> errorsList = this.getFillInFormErrors();
+
+		for (WebElement error : errorsList) {
+			if (error.getText().trim().equalsIgnoreCase(errorText.trim())) {
+				isErrorFound = true;
+				break;
+			}
+		}
+
+		return isErrorFound;
 	}
 }
