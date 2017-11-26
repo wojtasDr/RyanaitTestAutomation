@@ -95,6 +95,7 @@ public class GenaralSteps {
 			pricePage.selectStandardFare();// It may be parametrized
 
 			// Go to RecomendationsPage
+			Sleep.seconds(3);
 			recommendationsPage = pricePage.clickContinueButton();
 
 			// Checkout Booking and go to PaymentPage

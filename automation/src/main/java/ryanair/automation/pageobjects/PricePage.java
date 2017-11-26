@@ -26,7 +26,8 @@ public class PricePage {
 	By standardFareBoxLocator = By.xpath("//div[@class='flights-table-fares__head']/span[text()='Standard fare']");
 	By plusFareBoxLocator = By.xpath("//div[@class='flights-table-fares__head']/span[text()='Plus']");
 	By flexiPlusFareBoxLocator = By.xpath("//div[@class='flights-table-fares__head']/span[text()='Flexi Plus']");
-	By continueButtonLocator = By.cssSelector("button#continue");
+	//By continueButtonLocator = By.cssSelector("button#continue");
+	By continueButtonLocator = By.xpath("//button[@ng-if]/span[text()='Continue']");
 
 	public PricePage(WebDriver driver) {
 		this.driver = driver;
