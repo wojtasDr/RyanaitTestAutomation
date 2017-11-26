@@ -30,7 +30,7 @@ public class HomePage {
 	private WebElement datePickerDate;
 	private WebElement oneWayRadioButton;
 	private WebElement passengersDropdown;
-	private WebElement adultsIncrementButton;
+	private WebElement incrementButton;
 	private WebElement letsGoButton;
 
 	// --------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -117,16 +117,36 @@ public class HomePage {
 		return new PricePage(driver);
 	}
 
-	// TODO Add possibility to add other groups than Adults
-	public HomePage selectPassengersDropdown(String adults, Integer adultsNumber) {
+	public HomePage selectPassengers(Integer adultsNumber, Integer teensNumber) {
 		passengersDropdown = driver.findElement(passengersDropdownLocator);
 		passengersDropdown.click();
 
 		for (int i = 0; i < (adultsNumber - 1); i++) {
-			adultsIncrementButton = driver.findElement(incrementButtonLocator(adults));
+			incrementButton = driver.findElement(incrementButtonLocator("Adults"));
 
 			executor = (JavascriptExecutor) driver;
-			executor.executeScript("arguments[0].click();", adultsIncrementButton);
+			executor.executeScript("arguments[0].click();", incrementButton);
+		}
+
+		for (int i = 0; i < (teensNumber); i++) {
+			incrementButton = driver.findElement(incrementButtonLocator("Teens"));
+
+			executor = (JavascriptExecutor) driver;
+			executor.executeScript("arguments[0].click();", incrementButton);
+		}
+
+		return this;
+	}
+
+	public HomePage selectOthers(String others, Integer othersNumber) {
+		passengersDropdown = driver.findElement(passengersDropdownLocator);
+		passengersDropdown.click();
+
+		for (int i = 0; i < (othersNumber); i++) {
+			incrementButton = driver.findElement(incrementButtonLocator(others));
+
+			executor = (JavascriptExecutor) driver;
+			executor.executeScript("arguments[0].click();", incrementButton);
 		}
 
 		return this;
@@ -151,13 +171,14 @@ public class HomePage {
 		return this;
 	}
 
+	// TODO add Children and Infants handling
 	public void fillInFlightDetailsForm(String departureAirport, String destinationAirport, String departureDate,
-			String adults, String adultsNumber) {
+			String adultsNumber, String teensNumber) {
 		this.setOneWayRadioButton();
 		this.chooseDepartureAirport(departureAirport);
 		this.chooseDestinationAirport(destinationAirport);
 		this.setDepartureDate(departureDate);
-		this.selectPassengersDropdown(adults, Integer.parseInt(adultsNumber));
+		this.selectPassengers(Integer.parseInt(adultsNumber), Integer.parseInt(teensNumber));
 	}
 
 	// --------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -181,5 +202,9 @@ public class HomePage {
 
 	public String getDepartureDateText() {
 		return driver.findElement(departureDateInput).getAttribute("end-date-min");
+	}
+
+	public String getPassengersDropDownText() {
+		return driver.findElement(passengersDropdownLocator).getText();
 	}
 }

@@ -95,13 +95,13 @@ public class PricePage {
 
 		return new RecommendationsPage(driver);
 	}
-	
-	public RecommendationsPage setFinalPriceAndContinue(){
+
+	public RecommendationsPage setFinalPriceAndContinue() {
 		this.confirmSelectedPrice();
 		Sleep.seconds(1);
-		this.selectStandardFare();//TODO It may be parametrized
+		this.selectStandardFare();// TODO It may be parametrized
 		Sleep.seconds(3);
-		
+
 		return this.clickContinueButton();
 	}
 }

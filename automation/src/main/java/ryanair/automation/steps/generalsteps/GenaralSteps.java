@@ -42,21 +42,25 @@ public class GenaralSteps {
 	 */
 	@Given("User is logged in")
 	public void loginWihtCorrectCredentials() {
+		APP.info("Login to " + AppConfiguration.getTestedAppUrl() + " with following credentials user: "
+				+ AppConfiguration.getTestUserLogin() + ", password: " + AppConfiguration.getTestUserPass());
+
 		homePage = new HomePage(setupWebDriver.setupChromeDriver(AppConfiguration.getChromedriverUrl()));
 		loginPage = homePage.chooseLoginMode();
 		loginPage.loginUser(AppConfiguration.getTestUserLogin(), AppConfiguration.getTestUserPass());
 
 		homePage.getUserNameText(AppConfiguration.getTestUserFullName());
+		APP.info("User " + AppConfiguration.getTestUserFullName() + " was logged in successfully.");
 	}
 
 	/**
 	 * Following Given step fill in flight details form, confirm chosen price
 	 * and checkout booking until payment page. It uses flightParams table:
-	 * |departureAirport|destinationAirport|departureDate|adults|adultsNumber|
-	 * example data |Budapest|Barcelona|17-02-2018|Adults|3| following date
-	 * format must be used dd-MM-yyyy
+	 * |departureAirport|destinationAirport|departureDate|adultsNumber|teensNumber|
+	 * |Budapest|Barcelona|17-02-2018|2|1| following date format must be used
+	 * dd-MM-yyyy
 	 * 
-	 * Methods uses asserts to check if filled fields have correct input text
+	 * Methods use asserts to check if filled fields have correct input text
 	 * set.
 	 */
 	@Given("Passenger makes booking with following data: $flightParams")
@@ -65,57 +69,70 @@ public class GenaralSteps {
 		Preconditions.checkNotNull(flightParams, "data table can't be null");
 
 		for (Map<String, String> row : flightParams.getRows()) {
-			// Initialize and check params
 			String departureAirport = row.get("departureAirport");
 			String destinationAirport = row.get("destinationAirport");
 			String departureDate = row.get("departureDate");
-			String adults = row.get("adults");
 			String adultsNumber = row.get("adultsNumber");
+			String teensNumber = row.get("teensNumber");
 
 			Preconditions.checkNotNull(departureAirport, "departureAirport can't be null");
 			Preconditions.checkNotNull(destinationAirport, "destinationAirport can't be null");
 			Preconditions.checkNotNull(departureDate, "departureDate can't be null");
-			Preconditions.checkNotNull(adults, "adults can't be null");
 			Preconditions.checkNotNull(adultsNumber, "adultsNumber can't be null");
+			Preconditions.checkNotNull(teensNumber, "teensNumber can't be null");
 
-			// Fill in flight details form
-			homePage.fillInFlightDetailsForm(departureAirport, destinationAirport, departureDate, adults, adultsNumber);
+			APP.info("Fill in flight details form with following data:");
+			APP.info("- From: " + departureAirport + ", To: " + destinationAirport + ", Flight date: " + departureDate);
+			APP.info("- Passengers: Adults - " + adultsNumber + ", Teens - " + teensNumber);
+			homePage.fillInFlightDetailsForm(departureAirport, destinationAirport, departureDate, adultsNumber,
+					teensNumber);
 
-			// Check if flight details form was filled in correctly
+			APP.info("Check if flight details form was filled in correctly.");
 			assertThat(homePage.getDepartureAirportText()).isEqualTo(departureAirport);
 			assertThat(homePage.getDestinationAirportText()).isEqualTo(destinationAirport);
 			assertThat(homePage.getDepartureDateText()).isEqualTo(departureDate);
 
-			// Got to PricePage
+			APP.info("Lets GO!");
 			pricePage = homePage.clickLetsGoButton();
 
-			// Confirm Price
-//			pricePage.confirmSelectedPrice();
-//			Sleep.seconds(1);
-//			pricePage.selectStandardFare();// It may be parametrized
-//
-//			// Go to RecomendationsPage
-//			Sleep.seconds(3);
-//			recommendationsPage = pricePage.clickContinueButton();
+			APP.info("Set final price and continue.");
 			recommendationsPage = pricePage.setFinalPriceAndContinue();
-			
-			// Checkout Booking and go to PaymentPage
+
+			APP.info("Checkout Booking and go to PaymentPage.");
 			recommendationsPage.checkoutBooking();
 			paymentPage = recommendationsPage.declineSeatReservation();
 		}
 	}
 
 	/**
-	 * Following When step fills in Passanger Data Form and Billing Address Form
+	 * Following When step fills in Passenger Data Form and Credit Card Form
 	 */
-	@When("Payment is done with card number $cardNumber")
-	public void fillInPaymentForm(@Named("cardNumber") String cardNumber) {
-		// Fill in passengers data form
+	@When("Payment is done with card number $cardNumber, card type $cardType, expiry month $expiryMonth, expiry year $expiryYear, security code $securityCode, card owner $cardOwner")
+	public void fillInPaymentForm(@Named("cardNumber") String cardNumber, @Named("cardType") String cardType,
+			@Named("expiryMonth") String expiryMonth, @Named("expiryYear") String expiryYear,
+			@Named("securityCode") String securityCode, @Named("cardOwner") String cardOwner) {
+
+		APP.info("Fill in passengers data form with auto generated data.");
 		paymentPage.fillInBPassengersDataForm();
-		// Fill in payment card data form
-		paymentPage.fillInPaymentCardForm(cardNumber, "MasterCard Debit", "8", "2019", "123", "Adam Nowak");
-		// Fill in billing address form
-		paymentPage.fillInBillingAddressForm("Warszawa", "Al. Jerozolimskie", "Warszawa", "00-000", "Poland");
+
+		APP.info("Fill in payment card form:");
+		APP.info("- Card number: " + cardNumber + ", card type: " + cardType + ", expiry: " + expiryMonth + "/"
+				+ expiryYear + ", security code: " + securityCode + ", owner: " + cardOwner);
+		paymentPage.fillInPaymentCardForm(cardNumber, cardType, expiryMonth, expiryYear, securityCode, cardOwner);
+	}
+
+	/**
+	 * Following When step fills in Billing Address Form
+	 */
+	@When("Payment is done for billing address $addressLine1, $addressLine2, city $city, postal code $postalCode, country $country")
+	public void fillInAddressForm(@Named("addressLine1") String addressLine1,
+			@Named("addressLine2") String addressLine2, @Named("city") String city,
+			@Named("postalCode") String postalCode, @Named("country") String country) {
+
+		APP.info("Fill in billing address form:");
+		APP.info("- Address: " + addressLine1 + ", " + addressLine2 + ", city: " + city + ", postal code: " + postalCode
+				+ ", country " + country);
+		paymentPage.fillInBillingAddressForm(addressLine1, addressLine2, city, postalCode, country);
 	}
 
 	/**
@@ -126,18 +143,19 @@ public class GenaralSteps {
 	 */
 	@Then("Payment is declined and following card error text is displayed: $errorText")
 	public void checkIfPaymentDeclined(@Named("errorText") String errorText) {
-		//accept payment if not accepted
+		APP.info("Accept payment if not accepted.");
 		paymentPage.acceptPolicy();
-		//try to make payment
+
+		APP.info("Try to make payment.");
 		paymentPage.payNowDeclined();
 
 		Sleep.seconds(1);
-		//Check if payment was declined and form field error is displayed (e.g. card number is invalid")
+		APP.info("Check if payment was declined.");
 		APP.info("Is -" + errorText + "- error visible: " + paymentPage.isErrorVisibe(errorText));
 		assertThat(paymentPage.isErrorVisibe(errorText)).isTrue();
 
-		Sleep.seconds(5);
-		//quit webdriver
+		Sleep.seconds(3);
+		APP.info("Quit webdriver.");
 		setupWebDriver.quitWebDriver();
 	}
 }

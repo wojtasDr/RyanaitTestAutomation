@@ -8,7 +8,7 @@ public class SampleStories extends AbstractStories {
 
 	@Override
 	protected List<String> storyPaths() {
-		return asList("stories/FirstStory.story"
+		return asList("stories/MakeFlightBookingDeclinedPayment.story"
 		);
 	}
 }

@@ -1,6 +1,7 @@
 package ryanair.automation.pageobjects;
 
 import java.util.List;
+import java.util.Random;
 
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
@@ -34,12 +35,11 @@ public class PaymentPage {
 	private WebElement billingAddressPostalCode;
 	private WebElement billingAddressCountry;
 	private WebElement policyInput;
-	private WebElement policyCheckBox;// TODO build it basing on policyInput
+	private WebElement policyCheckBox;
 	private WebElement payNowButton;
 	private List<WebElement> firstNameInputs;
 	private List<WebElement> lastNameInputs;
 	private List<WebElement> passengerTitleSelects;
-	private List<WebElement> passangerTitleOptions;
 
 	// --------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	// ---LOCATORS---
@@ -64,19 +64,20 @@ public class PaymentPage {
 	By policyInputLocator = By.name("acceptPolicy");
 	By policyCheckBoxLocator = By.xpath("//input[@name='acceptPolicy']/..//core-icon");
 	By fillInFormErrorsLocator = By.cssSelector("li>span[translate*='card_number']");
+	By selectOptionsLocator = By.xpath("./option[@label]");
 
 	public PaymentPage(WebDriver driver) {
 		this.driver = driver;
 
-		Sleep.seconds(1);
+		Sleep.seconds(2);
 		pageCurrentUrl = driver.getCurrentUrl().trim();
 		pageExpectedUrl = AppConfiguration.getTestedAppUrl() + pageUrlSuffix;
-		 // Check that we're on the right page.
-		 if (!pageCurrentUrl.equals(pageExpectedUrl)) {
-			 APP.error("This is NOT the "+ this.getClass().getSimpleName() + " page: " + pageCurrentUrl);
-		 } else {
-			 APP.info("This is "+ this.getClass().getSimpleName() + " page: " + pageCurrentUrl);
-		 }
+		// Check that we're on the right page.
+		if (!pageCurrentUrl.equals(pageExpectedUrl)) {
+			APP.error("This is NOT the " + this.getClass().getSimpleName() + " page: " + pageCurrentUrl);
+		} else {
+			APP.info("This is " + this.getClass().getSimpleName() + " page: " + pageCurrentUrl);
+		}
 	}
 
 	// --------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -117,13 +118,16 @@ public class PaymentPage {
 
 	public PaymentPage typePassangersTitle() {
 		int i = 1;
+		Random rand = new Random();
 
 		passengerTitleSelects = driver.findElements(passangerTitleSelectsLocator);
-		passangerTitleOptions = driver.findElements(passangerTitleOptionsLocator);
 
 		while (i < passengerTitleSelects.size()) {
+			int optionsNumber = passengerTitleSelects.get(i).findElements(selectOptionsLocator).size();
+			optionsNumber = rand.nextInt(optionsNumber) + 1;
+
 			select = new Select(passengerTitleSelects.get(i));
-			select.selectByIndex(i % (passangerTitleOptions.size() / passengerTitleSelects.size()));
+			select.selectByIndex(optionsNumber);
 			i++;
 		}
 
@@ -133,6 +137,7 @@ public class PaymentPage {
 	public PaymentPage fillInBPassengersDataForm() {
 		this.typePassangersTitle();
 		this.typePassangersFirstName();
+
 		this.typePassangersLastName();
 
 		return this;
@@ -141,7 +146,7 @@ public class PaymentPage {
 	public PaymentPage selectCardType(String cardType) {
 		cardTypeInput = driver.findElement(cardTypeInputLocator);
 		cardTypeInput.click();
-		
+
 		cardTypeInput = driver.findElement(cardTypeInputLocator);
 		select = new Select(cardTypeInput);
 		select.selectByVisibleText(cardType);
@@ -158,7 +163,7 @@ public class PaymentPage {
 	public PaymentPage selectExpiryMonth(String expiryMonth) {
 		cardExpiryMonthInput = driver.findElement(cardExpiryMonthInputLocator);
 		cardExpiryMonthInput.click();
-		
+
 		cardExpiryMonthInput = driver.findElement(cardExpiryMonthInputLocator);
 		select = new Select(cardExpiryMonthInput);
 		select.selectByVisibleText(expiryMonth);
@@ -168,7 +173,7 @@ public class PaymentPage {
 	public PaymentPage selectExpiryYear(String expiryYear) {
 		cardExpiryYearInput = driver.findElement(cardExpiryYearInputLocator);
 		cardExpiryYearInput.click();
-		
+
 		cardExpiryYearInput = driver.findElement(cardExpiryYearInputLocator);
 		select = new Select(cardExpiryYearInput);
 		select.selectByVisibleText(expiryYear);
@@ -232,7 +237,7 @@ public class PaymentPage {
 	public PaymentPage selectCountry(String addressCountry) {
 		billingAddressCountry = driver.findElement(billingAddressCountryLocator);
 		billingAddressCountry.click();
-		
+
 		billingAddressCountry = driver.findElement(billingAddressCountryLocator);
 		select = new Select(billingAddressCountry);
 		select.selectByVisibleText(addressCountry);

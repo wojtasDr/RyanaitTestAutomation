@@ -29,7 +29,7 @@ public class RecommendationsPage {
 	public RecommendationsPage(WebDriver driver) {
 		this.driver = driver;
 
-		Sleep.seconds(1);
+		Sleep.seconds(2);
 		pageCurrentUrl = driver.getCurrentUrl().trim();
 		pageExpectedUrl = AppConfiguration.getTestedAppUrl() + pageUrlSuffix;
 		// Check that we're on the right page.
