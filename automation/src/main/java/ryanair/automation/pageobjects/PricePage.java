@@ -1,14 +1,21 @@
 package ryanair.automation.pageobjects;
 
+import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import ryanair.automation.utils.AppConfiguration;
+import ryanair.automation.utils.Sleep;
+
 public class PricePage {
 	private WebDriver driver;
-
+	private static Logger APP = Logger.getLogger("APP");
+	private final String pageUrlSuffix = "booking/home";
+	private String pageCurrentUrl;
+	private String pageExpectedUrl;
 	// --------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	// ---WEB ELEMENTS---
 	// --------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -26,16 +33,21 @@ public class PricePage {
 	By standardFareBoxLocator = By.xpath("//div[@class='flights-table-fares__head']/span[text()='Standard fare']");
 	By plusFareBoxLocator = By.xpath("//div[@class='flights-table-fares__head']/span[text()='Plus']");
 	By flexiPlusFareBoxLocator = By.xpath("//div[@class='flights-table-fares__head']/span[text()='Flexi Plus']");
-	//By continueButtonLocator = By.cssSelector("button#continue");
+	// By continueButtonLocator = By.cssSelector("button#continue");
 	By continueButtonLocator = By.xpath("//button[@ng-if]/span[text()='Continue']");
 
 	public PricePage(WebDriver driver) {
 		this.driver = driver;
 
-		// // Check that we're on the right page.
-		// if (!driver.getCurrentUrl().trim().endsWith("/tumorboard/#/login")) {
-		// throw new IllegalStateException("This is not the login page");
-		// }
+		Sleep.seconds(2);
+		pageCurrentUrl = driver.getCurrentUrl().trim();
+		pageExpectedUrl = AppConfiguration.getTestedAppUrl() + pageUrlSuffix;
+		// Check that we're on the right page.
+		if (!pageCurrentUrl.equals(pageExpectedUrl)) {
+			APP.error("This is NOT the " + this.getClass().getSimpleName() + " page: " + pageCurrentUrl);
+		} else {
+			APP.info("This is " + this.getClass().getSimpleName() + " page: " + pageCurrentUrl);
+		}
 	}
 
 	// --------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -82,5 +94,14 @@ public class PricePage {
 		continueButton.click();
 
 		return new RecommendationsPage(driver);
+	}
+	
+	public RecommendationsPage setFinalPriceAndContinue(){
+		this.confirmSelectedPrice();
+		Sleep.seconds(1);
+		this.selectStandardFare();//TODO It may be parametrized
+		Sleep.seconds(3);
+		
+		return this.clickContinueButton();
 	}
 }

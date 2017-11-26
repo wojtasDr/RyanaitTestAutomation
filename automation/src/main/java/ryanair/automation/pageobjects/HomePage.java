@@ -1,5 +1,6 @@
 package ryanair.automation.pageobjects;
 
+import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
@@ -8,13 +9,17 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import ryanair.automation.utils.AppConfiguration;
 import ryanair.automation.utils.DateOperations;
 import ryanair.automation.utils.Sleep;
 
 public class HomePage {
 
 	private WebDriver driver;
-	JavascriptExecutor executor;
+	private JavascriptExecutor executor;
+	private static Logger APP = Logger.getLogger("APP");
+	private String pageCurrentUrl;
+	private String pageExpectedUrl;
 	// --------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	// ---WEB ELEMENTS---
 	// --------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -56,10 +61,14 @@ public class HomePage {
 	public HomePage(WebDriver driver) {
 		this.driver = driver;
 
-		// // Check that we're on the right page.
-		// if (!driver.getCurrentUrl().trim().endsWith("/tumorboard/#/login")) {
-		// throw new IllegalStateException("This is not the login page");
-		// }
+		pageCurrentUrl = driver.getCurrentUrl().trim();
+		pageExpectedUrl = AppConfiguration.getTestedAppUrl();
+		// Check that we're on the right page.
+		if (!pageCurrentUrl.equals(pageExpectedUrl)) {
+			APP.error("This is NOT the " + this.getClass().getSimpleName() + " page: " + pageCurrentUrl);
+		} else {
+			APP.info("This is " + this.getClass().getSimpleName() + " page: " + pageCurrentUrl);
+		}
 	}
 
 	// --------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -141,7 +150,7 @@ public class HomePage {
 
 		return this;
 	}
-	
+
 	public void fillInFlightDetailsForm(String departureAirport, String destinationAirport, String departureDate,
 			String adults, String adultsNumber) {
 		this.setOneWayRadioButton();
@@ -158,7 +167,7 @@ public class HomePage {
 	public String getUserNameText(String text) {
 		(new WebDriverWait(driver, 10))
 				.until(ExpectedConditions.textToBePresentInElementLocated(userNameTextLocator, text));
-		
+
 		return driver.findElement(userNameTextLocator).getText();
 	}
 

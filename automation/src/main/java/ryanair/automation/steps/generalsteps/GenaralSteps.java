@@ -90,14 +90,15 @@ public class GenaralSteps {
 			pricePage = homePage.clickLetsGoButton();
 
 			// Confirm Price
-			pricePage.confirmSelectedPrice();
-			Sleep.seconds(1);
-			pricePage.selectStandardFare();// It may be parametrized
-
-			// Go to RecomendationsPage
-			Sleep.seconds(3);
-			recommendationsPage = pricePage.clickContinueButton();
-
+//			pricePage.confirmSelectedPrice();
+//			Sleep.seconds(1);
+//			pricePage.selectStandardFare();// It may be parametrized
+//
+//			// Go to RecomendationsPage
+//			Sleep.seconds(3);
+//			recommendationsPage = pricePage.clickContinueButton();
+			recommendationsPage = pricePage.setFinalPriceAndContinue();
+			
 			// Checkout Booking and go to PaymentPage
 			recommendationsPage.checkoutBooking();
 			paymentPage = recommendationsPage.declineSeatReservation();
@@ -132,7 +133,7 @@ public class GenaralSteps {
 
 		Sleep.seconds(1);
 		//Check if payment was declined and form field error is displayed (e.g. card number is invalid")
-		APP.info("Is " + errorText + "error visible: " + paymentPage.isErrorVisibe(errorText));
+		APP.info("Is -" + errorText + "- error visible: " + paymentPage.isErrorVisibe(errorText));
 		assertThat(paymentPage.isErrorVisibe(errorText)).isTrue();
 
 		Sleep.seconds(5);

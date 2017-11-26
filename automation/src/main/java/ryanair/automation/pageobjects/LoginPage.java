@@ -24,11 +24,6 @@ public class LoginPage {
 
 	public LoginPage(WebDriver driver) {
 		this.driver = driver;
-
-		// // Check that we're on the right page.
-		// if (!driver.getCurrentUrl().trim().endsWith("/tumorboard/#/login")) {
-		// throw new IllegalStateException("This is not the login page");
-		// }
 	}
 
 	// --------------------------------------------------------------------------------------------------------------------------------------------------------------------------

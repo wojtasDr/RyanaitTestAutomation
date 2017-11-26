@@ -2,6 +2,7 @@ package ryanair.automation.pageobjects;
 
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
@@ -9,10 +10,15 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 
 import ryanair.automation.utils.AppConfiguration;
+import ryanair.automation.utils.Sleep;
 
 public class PaymentPage {
 	private WebDriver driver;
 	private Select select;
+	private static Logger APP = Logger.getLogger("APP");
+	private final String pageUrlSuffix = "booking/payment";
+	private String pageCurrentUrl;
+	private String pageExpectedUrl;
 	// --------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	// ---WEB ELEMENTS---
 	// --------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -62,10 +68,15 @@ public class PaymentPage {
 	public PaymentPage(WebDriver driver) {
 		this.driver = driver;
 
-		// // Check th9at we're on the right page.
-		// if (!driver.getCurrentUrl().trim().endsWith("/tumorboard/#/login")) {
-		// throw new IllegalStateException("This is not the login page");
-		// }
+		Sleep.seconds(1);
+		pageCurrentUrl = driver.getCurrentUrl().trim();
+		pageExpectedUrl = AppConfiguration.getTestedAppUrl() + pageUrlSuffix;
+		 // Check that we're on the right page.
+		 if (!pageCurrentUrl.equals(pageExpectedUrl)) {
+			 APP.error("This is NOT the "+ this.getClass().getSimpleName() + " page: " + pageCurrentUrl);
+		 } else {
+			 APP.info("This is "+ this.getClass().getSimpleName() + " page: " + pageCurrentUrl);
+		 }
 	}
 
 	// --------------------------------------------------------------------------------------------------------------------------------------------------------------------------
