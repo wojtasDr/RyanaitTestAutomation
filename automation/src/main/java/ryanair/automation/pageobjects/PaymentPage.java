@@ -130,7 +130,8 @@ public class PaymentPage {
 	public PaymentPage selectCardType(String cardType) {
 		cardTypeInput = driver.findElement(cardTypeInputLocator);
 		cardTypeInput.click();
-
+		
+		cardTypeInput = driver.findElement(cardTypeInputLocator);
 		select = new Select(cardTypeInput);
 		select.selectByVisibleText(cardType);
 		return this;
@@ -146,7 +147,8 @@ public class PaymentPage {
 	public PaymentPage selectExpiryMonth(String expiryMonth) {
 		cardExpiryMonthInput = driver.findElement(cardExpiryMonthInputLocator);
 		cardExpiryMonthInput.click();
-
+		
+		cardExpiryMonthInput = driver.findElement(cardExpiryMonthInputLocator);
 		select = new Select(cardExpiryMonthInput);
 		select.selectByVisibleText(expiryMonth);
 		return this;
@@ -155,7 +157,8 @@ public class PaymentPage {
 	public PaymentPage selectExpiryYear(String expiryYear) {
 		cardExpiryYearInput = driver.findElement(cardExpiryYearInputLocator);
 		cardExpiryYearInput.click();
-
+		
+		cardExpiryYearInput = driver.findElement(cardExpiryYearInputLocator);
 		select = new Select(cardExpiryYearInput);
 		select.selectByVisibleText(expiryYear);
 		return this;
@@ -218,7 +221,8 @@ public class PaymentPage {
 	public PaymentPage selectCountry(String addressCountry) {
 		billingAddressCountry = driver.findElement(billingAddressCountryLocator);
 		billingAddressCountry.click();
-
+		
+		billingAddressCountry = driver.findElement(billingAddressCountryLocator);
 		select = new Select(billingAddressCountry);
 		select.selectByVisibleText(addressCountry);
 		return this;
