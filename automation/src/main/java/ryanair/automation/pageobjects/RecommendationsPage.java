@@ -40,10 +40,10 @@ public class RecommendationsPage {
 		return this;
 	}
 	
-	public RecommendationsPage declineSeatReservation(){
+	public PaymentPage declineSeatReservation(){
 		declineSeatReservaitionButton = driver.findElement(declineSeatReservaitionButtonLocator);
 		declineSeatReservaitionButton.click();
 		
-		return this;
+		return new PaymentPage(driver);
 	}
 }

@@ -149,6 +149,7 @@
 				<app.url>https://www.ryanair.com/gb/en/</app.url>
 				<app.user.name>ryanairautomationwp@mailinator.com</app.user.name>
 				<app.user.pass>R1234567a</app.user.pass>
+				<app.user.fullname>test</app.user.fullname>
 				<chromedrive.url>C:/Users/wojtas_dr/Desktop/Projects/RyanaitTestAutomation/chromedriver.exe</chromedrive.url>
 			</properties>
 		</profile>
@@ -161,6 +162,7 @@
 				<app.url>https://www.ryanair.com/pl/pl/</app.url>
 				<app.user.name>ryanairautomationwp@mailinator.com</app.user.name>
 				<app.user.pass>R1234567a</app.user.pass>
+				<app.user.fullname>test</app.user.fullname>
 				<chromedrive.url>C:/Users/wojtas_dr/Desktop/Projects/RyanaitTestAutomation/chromedriver.exe</chromedrive.url>
 			</properties>
 		</profile>

@@ -14,7 +14,7 @@ import ryanair.automation.utils.Sleep;
 public class HomePage {
 
 	private WebDriver driver;
-
+	JavascriptExecutor executor;
 	// --------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	// ---WEB ELEMENTS---
 	// --------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -27,7 +27,7 @@ public class HomePage {
 	private WebElement passengersDropdown;
 	private WebElement adultsIncrementButton;
 	private WebElement letsGoButton;
-	
+
 	// --------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	// ---LOCATORS---
 	// --------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -38,20 +38,21 @@ public class HomePage {
 	By destinationAirportLabelLocator = By.xpath("//div[@label='To:']");
 	By destinationAirportInputLocator = By.xpath("//input[contains(@placeholder,'estination')]");
 	By departureDateInput = By.xpath("//div[@start-date-label='Fly out:']");
-	By datePickerLocator = By.xpath("//div[@id='row-dates-pax']/div"); 
-	By datePickerRightArrowLocator = By.xpath("//button[@class='arrow right']/core-icon/div"); 
+	By datePickerLocator = By.xpath("//div[@id='row-dates-pax']/div");
+	By datePickerRightArrowLocator = By.xpath("//button[@class='arrow right']/core-icon/div");
 	By oneWayRadioButtonLocator = By.id("lbl-flight-search-type-one-way");
 	By passengersDropdownLocator = By.xpath("//div[@ng-switch-default]/div[@class='value']");
 	By letsGoButtonLocator = By.xpath("//button/span[contains(@translate,'lets')]");
-	
-	public static By incrementButtonLocator(String passengersGroup){
-		return By.xpath("//div[text()='"+ passengersGroup + "']/../../div[@class='details-controls']/core-inc-dec/button[contains(@ng-click,'increment')]");
+
+	public static By incrementButtonLocator(String passengersGroup) {
+		return By.xpath("//div[text()='" + passengersGroup
+				+ "']/../../div[@class='details-controls']/core-inc-dec/button[contains(@ng-click,'increment')]");
 	}
-	
-	public static By datePickerDateLocator(String date){
-		return By.xpath("//li[@data-id='"+ date + "']/span[@ng-bind]");
+
+	public static By datePickerDateLocator(String date) {
+		return By.xpath("//li[@data-id='" + date + "']/span[@ng-bind]");
 	}
-	
+
 	public HomePage(WebDriver driver) {
 		this.driver = driver;
 
@@ -69,53 +70,54 @@ public class HomePage {
 		loginViewButton = (new WebDriverWait(driver, 10))
 				.until(ExpectedConditions.presenceOfElementLocated(loginViewButtonLocator));
 
-		// loginViewButton = driver.findElement(loginViewButtonLocator);
 		loginViewButton.click();
 
 		return new LoginPage(driver);
 	}
-	
-	//TODO Check max date and past date
+
+	// TODO Check max date and past date
 	public HomePage setDepartureDate(String date) {
 		long monthsInTheFuture = DateOperations.monthsBetweenDates(date);
 
 		for (long i = 0; i <= monthsInTheFuture; i++) {
 			datePickerRightArrow = driver.findElement(datePickerRightArrowLocator);
-			JavascriptExecutor executor = (JavascriptExecutor) driver;
+			executor = (JavascriptExecutor) driver;
 			executor.executeScript("arguments[0].click();", datePickerRightArrow);
 			Sleep.milliSeconds(300);
 		}
 
 		datePickerDate = driver.findElement(datePickerDateLocator(date));
 
-		JavascriptExecutor executor = (JavascriptExecutor) driver;
+		executor = (JavascriptExecutor) driver;
 		executor.executeScript("arguments[0].click();", datePickerDate);
 
 		return this;
 	}
-	
-	public HomePage setOneWayRadioButton(){
+
+	public HomePage setOneWayRadioButton() {
 		oneWayRadioButton = driver.findElement(oneWayRadioButtonLocator);
 		oneWayRadioButton.click();
-		
+
 		return this;
 	}
-	
-	public PricePage clickLetsGoButton(){
+
+	public PricePage clickLetsGoButton() {
 		letsGoButton = driver.findElement(letsGoButtonLocator);
 		letsGoButton.click();
-		
+
 		return new PricePage(driver);
 	}
-	
-	//TODO Add possibility to add other groups than Adults
+
+	// TODO Add possibility to add other groups than Adults
 	public HomePage selectPassengersDropdown(String adults, Integer adultsNumber) {
 		passengersDropdown = driver.findElement(passengersDropdownLocator);
 		passengersDropdown.click();
 
-		for(int i = 0; i < (adultsNumber - 1); i++){
+		for (int i = 0; i < (adultsNumber - 1); i++) {
 			adultsIncrementButton = driver.findElement(incrementButtonLocator(adults));
-			adultsIncrementButton.click();
+
+			executor = (JavascriptExecutor) driver;
+			executor.executeScript("arguments[0].click();", adultsIncrementButton);
 		}
 
 		return this;
@@ -147,15 +149,15 @@ public class HomePage {
 	public String getUserNameText() {
 		return driver.findElement(userNameTextLocator).getText();
 	}
-	
+
 	public String getDepartureAirportText() {
 		return driver.findElement(departureAirportLabelLocator).getAttribute("value");
 	}
-	
+
 	public String getDestinationAirportText() {
 		return driver.findElement(destinationAirportLabelLocator).getAttribute("value");
 	}
-	
+
 	public String getDepartureDateText() {
 		return driver.findElement(departureDateInput).getAttribute("end-date-min");
 	}
