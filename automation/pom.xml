@@ -150,7 +150,7 @@
 				<app.user.name>ryanairautomationwp@mailinator.com</app.user.name>
 				<app.user.pass>R1234567a</app.user.pass>
 				<app.user.fullname>test</app.user.fullname>
-				<chromedrive.url>C:/Users/wojtas_dr/Desktop/Projects/RyanaitTestAutomation/chromedriver.exe</chromedrive.url>
+				<chromedriver.url>C:/Users/wojtas_dr/Desktop/Projects/RyanaitTestAutomation/chromedriver.exe</chromedriver.url>
 			</properties>
 		</profile>
 		<profile>

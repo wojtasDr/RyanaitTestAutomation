@@ -1,0 +1,46 @@
+2017-11-26 18:03:35,661 INFO  [APP] 
+2017-11-26 18:03:35,666 INFO  [APP] ***-----------***
+2017-11-26 18:03:35,666 INFO  [APP] STORY WAS STARTED
+2017-11-26 18:03:35,666 INFO  [APP] ***-----------***
+2017-11-26 18:03:35,666 INFO  [APP] 
+2017-11-26 18:03:35,683 INFO  [APP] 
+2017-11-26 18:03:35,683 INFO  [APP] ____________________
+2017-11-26 18:03:35,683 INFO  [APP] SCENARIO WAS STARTED
+2017-11-26 18:03:35,683 INFO  [APP] ____________________
+2017-11-26 18:03:35,683 INFO  [APP] 
+2017-11-26 18:03:36,362 INFO  [APP] Login to https://www.ryanair.com/gb/en/ with following credentials user: ryanairautomationwp@mailinator.com, password: R1234567a
+2017-11-26 18:03:50,165 INFO  [APP] This is HomePage page: https://www.ryanair.com/gb/en/
+2017-11-26 18:03:52,735 INFO  [APP] This is HomePage page: https://www.ryanair.com/gb/en/
+2017-11-26 18:03:54,607 INFO  [APP] User test was logged in successfully.
+2017-11-26 18:03:54,698 INFO  [APP] Fill in flight details form with following data:
+2017-11-26 18:03:54,700 INFO  [APP] - From: Budapest, To: Barcelona, Flight date: 17-02-2018
+2017-11-26 18:03:54,700 INFO  [APP] - Passengers: Adults - 2, Teens - 1
+2017-11-26 18:04:01,381 INFO  [APP] Check if flight details form was filled in correctly.
+2017-11-26 18:04:01,744 INFO  [APP] Lets GO!
+2017-11-26 18:04:04,112 INFO  [APP] This is PricePage page: https://www.ryanair.com/gb/en/booking/home
+2017-11-26 18:04:04,112 INFO  [APP] Set final price and continue.
+2017-11-26 18:04:13,705 INFO  [APP] This is RecommendationsPage page: https://www.ryanair.com/gb/en/booking/extras
+2017-11-26 18:04:13,705 INFO  [APP] Checkout Booking and go to PaymentPage.
+2017-11-26 18:04:20,495 INFO  [APP] This is PaymentPage page: https://www.ryanair.com/gb/en/booking/payment
+2017-11-26 18:04:20,562 INFO  [APP] Fill in passengers data form with auto generated data.
+2017-11-26 18:04:25,155 INFO  [APP] Fill in payment card form:
+2017-11-26 18:04:25,155 INFO  [APP] - Card number: 5188608900375138, card type: MasterCard Debit, expiry: 9/2020, security code: 124, owner: Jan Kowalski
+2017-11-26 18:04:27,512 INFO  [APP] Fill in billing address form:
+2017-11-26 18:04:27,512 INFO  [APP] - Address: Al. Jerozolimskie, 32a, city: Warszawa, postal code: 00-000, country Poland
+2017-11-26 18:04:29,747 INFO  [APP] Accept payment if not accepted.
+2017-11-26 18:04:30,079 INFO  [APP] Try to make payment.
+2017-11-26 18:04:31,227 INFO  [APP] Check if payment was declined.
+2017-11-26 18:04:31,279 INFO  [APP] Is -Card number is invalid- error visible: true
+2017-11-26 18:04:34,308 INFO  [APP] Quit webdriver.
+2017-11-26 18:04:35,177 INFO  [APP] 
+2017-11-26 18:04:35,177 INFO  [APP] _____________________
+2017-11-26 18:04:35,177 INFO  [APP] SCENARIO WAS FINISHED
+2017-11-26 18:04:35,177 INFO  [APP] _____________________
+2017-11-26 18:04:35,177 INFO  [APP] 
+2017-11-26 18:04:35,178 INFO  [APP] STORY_NAME: MakeFlightBookingDeclinedPayment.story; DESCRIPTION: Perform flight booking with invalid credit card number, check if payment declined.; RESULT: passed;
+2017-11-26 18:04:35,179 INFO  [APP] 
+2017-11-26 18:04:35,180 INFO  [APP] ***------------***
+2017-11-26 18:04:35,180 INFO  [APP] STORY WAS FINISHED
+2017-11-26 18:04:35,180 INFO  [APP] ***------------***
+2017-11-26 18:04:35,180 INFO  [APP] 
+2017-11-26 18:04:35,193 INFO  [APP] Story - Perform flight booking with invalid data, check if payment declined.;PASSED;
