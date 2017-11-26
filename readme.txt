@@ -43,7 +43,7 @@ Then Payment is declined and following card error text is displayed: Card number
 
 Test Steps description:
 1. Given User is logged in
-Login user to Ryanair booking site and verify it it was logged in.
+Login user to Ryanair booking site and verify if it was logged in.
 2. Given Passenger makes booking with following data:
 Fills in flight details data for (From, To, Date, Passangers)
 Check if fields were fillec correctly.
